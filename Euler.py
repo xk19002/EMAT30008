@@ -24,8 +24,14 @@ def euler_step(f,tspan,x0,deltat_max):
         x[k + 1] = x[k] + h * f(x[k], t[k])
     return x,t
 
+if __name__ == "__main__":
 
+    def f(x,t):
+        return x
 
+    def solve_to():
+        x,t = euler_step(f, tspan = 1, x0=1, deltat_max=10)
+        
         
 
 
