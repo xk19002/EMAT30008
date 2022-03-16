@@ -23,15 +23,31 @@ def euler_step(f,tspan,x0,deltat_max):
         t[k + 1] = t[k] + h
         x[k + 1] = x[k] + h * f(x[k], t[k])
     return x,t
+    
 
 if __name__ == "__main__":
 
     def f(x,t):
         return x
 
+    def exact_sol():
+        exact = np.linspace(0,1,1001)
+        plt.plot(exact, np.exp(exact), label='Exact')
+        plt.legend()
+
     def solve_to():
-        x,t = euler_step(f, tspan = 1, x0=1, deltat_max=10)
-        
-        
+        for deltat_max in [5,10,20]:
+            x,t = euler_step(f, tspan = 1, x0=1, deltat_max=deltat_max)
+            print(x,t)
+            plt.plot(t, x, linestyle='dashed', label=f"n={deltat_max}")
+            plt.legend()
+            
+
+    #euler_step(f, tspan = 1, x0=1, deltat_max=10)
+    exact_sol()
+    solve_to()   
+    plt.show()   
+    
+
 
 
