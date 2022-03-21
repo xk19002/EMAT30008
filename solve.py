@@ -14,6 +14,7 @@ for method in [RK4_step, euler_step]:
     solve = method(f)
     solve.init_conds(1)
     x,t = solve.solve_to(tstep)
+    print(t,x)
     plt.plot(t,x, label=method.__name__)
 
 exact = np.linspace(0, tspan, 1001)
