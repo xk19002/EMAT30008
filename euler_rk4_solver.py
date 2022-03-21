@@ -22,7 +22,7 @@ class solve_ode:
         self.x = np.zeros((tstep_num, self.eqns_num))
         self.x[0,:] = self.x0
 
-        for k in tqdm(range(tstep_num-1, ascii=True):
+        for k in tqdm(range(tstep_num-1), ascii=True):
             self.k = k
             self.x[k+1] = self.next_iter()
         return self.x, self.t
@@ -33,18 +33,18 @@ class solve_ode:
 class euler_step(solve_ode):
     def next_iter(self):
         x,f,k,t = self.x, self.f, self.k, self.t
-        deltat_max = t[k+1] - t[k]
-        return x[k,:] + deltat_max * f(x[k,:], t[k])
+        step_size = t[k+1] - t[k]
+        return x[k,:] + step_size * f(x[k,:], t[k])
 
 class RK4_step(solve_ode):
     def next_iter(self):
         x,f,k,t = self.x, self.f, self.k, self.t
-        deltat_max = t[k + 1] - t[k]
-        half_deltat_max = deltat_max/2
-        sol1 = deltat_max * f(x[k,:], t[k])
-        sol2 = deltat_max *f(x[k,:] + 0.5 * sol1, t[k] + half_deltat_max)
-        sol3 = deltat_max *f(x[k,:] + 0.5 * sol2, t[k] + half_deltat_max)
-        sol4 = deltat_max *f(x[k,:] + sol3, t[k] + half_deltat_max)
+        step_size = t[k + 1] - t[k]
+        half_step_size = step_size/2
+        sol1 = step_size * f(x[k,:], t[k])
+        sol2 = step_size *f(x[k,:] + 0.5 * sol1, t[k] + half_step_size)
+        sol3 = step_size *f(x[k,:] + 0.5 * sol2, t[k] + half_step_size)
+        sol4 = step_size *f(x[k,:] + sol3, t[k] + half_step_size)
         return x[k,:] + (1/6) * (sol1 + 2 * sol2 + 2 * sol3 + sol4)
 
     
