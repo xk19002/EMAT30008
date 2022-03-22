@@ -1,9 +1,10 @@
-from tkinter import Y
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import integrate
 import ipywidgets as ipw
+import random
+import matplotlib.cm as cm
 
 alpha = 1
 beta = 0.26
@@ -32,4 +33,26 @@ plt.plot(t,y,'r',label='Predator')
 plt.xlabel('Time')
 plt.ylabel('Population')
 plt.legend()
+plt.show()
+
+beta_vals = np.arange(0.1,0.6,0.1)
+vals = np.random.random((10,len(beta_vals)))
+cols = cm.rainbow(np.linspace(0,1,vals.shape[0]))
+
+fig,ax = plt.subplots(2,1)
+
+for beta, k in zip(beta_vals, range(len(beta_vals))):
+    sol = integrate.odeint(pred_prey_eqns, Y0, t, args = (alpha,beta,delta))
+    ax[0].plot(t, sol[:,0], color = cols[k], linestyle='-', label=r"$\beta = $" + "{0:.2f}".format(beta))
+    ax[1].plot(t, sol[:,1], color = cols[k], linestyle='-', label=r"$\beta = $" + "{0:.2f}".format(beta))
+    ax[0].legend(loc = 'best')
+    ax[1].legend(loc = 'best')
+
+ax[0].grid()
+ax[1].grid()
+ax[0].set_xlabel('Time')
+ax[0].set_ylabel('Prey')
+ax[1].set_xlabel('Time')
+ax[1].set_ylabel('Predator')
+
 plt.show()
