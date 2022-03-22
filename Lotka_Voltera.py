@@ -56,3 +56,15 @@ ax[1].set_xlabel('Time')
 ax[1].set_ylabel('Predator')
 
 plt.show()
+
+plt.figure()
+prey_ics = np.linspace(1.0,5.0,17)
+for prey in prey_ics:
+    Y0 = [prey, 1.0]
+    Ys = integrate.odeint(pred_prey_eqns, Y0, t, args = (alpha, beta, delta))
+    plt.plot(Ys[:,0], Ys[:,1], "-", label = "$x_0 =$"+str(Y0[0]))
+plt.xlabel('Prey')
+plt.ylabel('Predator')
+plt.legend(loc = 'best')
+plt.title('Prey vs Predator phase portrait')
+plt.show()
