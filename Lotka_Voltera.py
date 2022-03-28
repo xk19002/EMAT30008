@@ -110,3 +110,15 @@ def RK4_solver(f,Y0,t,alpha,beta,delta):
         sol4 = f(x[k] + dt * sol3, t[k] + dt, alpha, beta, delta)
         x[k+1] = x[k] + dt/6 * (sol1+2 * sol2+2 * sol3 + sol4)
     return x
+
+Yrk4 = RK4_solver(pred_prey_eqns, Y0, t, alpha, beta, delta)
+plt.figure()
+plt.title('Predator-prey equations solved with RK4 method')
+plt.plot(t, Yrk4[:,0],'b',label='Prey')
+plt.plot(t, Yrk4[:,1],'r',label='Predator')
+plt.grid()
+plt.xlabel('Time')
+plt.ylabel('Population')
+plt.ylim([0,1.2])
+plt.legend(loc='best')
+plt.show()
