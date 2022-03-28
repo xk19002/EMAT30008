@@ -43,8 +43,8 @@ fig,ax = plt.subplots(2,1)
 
 for beta, k in zip(beta_vals, range(len(beta_vals))):
     sol = integrate.odeint(pred_prey_eqns, Y0, t, args = (alpha,beta,delta))
-    ax[0].plot(t, sol[:,0], color = cols[k], linestyle='-', label=r"$\beta = $" + "{0:.2f}".format(beta))
-    ax[1].plot(t, sol[:,1], color = cols[k], linestyle='-', label=r"$\beta = $" + "{0:.2f}".format(beta))
+    ax[0].plot(t, sol[:,0], color = cols[k], linestyle='-', label=r"b = " + "{0:.2f}".format(beta))
+    ax[1].plot(t, sol[:,1], color = cols[k], linestyle='-', label=r"b = " + "{0:.2f}".format(beta))
     ax[0].legend(loc = 'best')
     ax[1].legend(loc = 'best')
 
@@ -68,3 +68,14 @@ plt.ylabel('Predator')
 plt.legend(loc = 'best')
 plt.title('Prey vs Predator phase portrait')
 plt.show()
+
+def euler_solver(f,x0,t,alpha,beta,delta):
+    dt = t[1] - t[0]
+    lt = len(t)
+    x = np.zeros([lt, len(x0)])
+    x[0] = x0
+    for k in range(lt-1):
+        x[k+1] = x[k] + f(x[k], t[k], alpha, beta, delta) * dt
+    return x
+
+
