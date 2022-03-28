@@ -98,3 +98,15 @@ plt.grid()
 plt.title('Phase plane of Prey vs Predator with Euler method')
 plt.show()
 
+def RK4_solver(f,Y0,t,alpha,beta,delta):
+    dt = t[1] - t[0]
+    lt = len(t)
+    x = np.zeros([lt, len(Y0)])
+    x[0] = Y0
+    for k in range(lt-1):
+        sol1 = f(x[k], t[k], alpha, beta, delta)
+        sol2 = f(x[k] + dt/2 * sol1, t[k] + dt/2, alpha, beta, delta)
+        sol3 = f(x[k] + dt/2 * sol2, t[k] + dt/2, alpha, beta, delta)
+        sol4 = f(x[k] + dt * sol3, t[k] + dt, alpha, beta, delta)
+        x[k+1] = x[k] + dt/6 * (sol1+2 * sol2+2 * sol3 + sol4)
+    return x
