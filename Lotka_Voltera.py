@@ -89,3 +89,12 @@ plt.ylabel('Population')
 plt.legend(loc = 'best')
 plt.ylim([0.,1.2])
 plt.show()
+
+plt.figure()
+plt.plot(Ye[:,0], Ye[:,1], "-")
+plt.xlabel('Prey')
+plt.ylabel('Predator')
+plt.grid()
+plt.title('Phase plane of Prey vs Predator with Euler method')
+plt.show()
+
