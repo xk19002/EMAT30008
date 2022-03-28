@@ -27,7 +27,7 @@ x,y = sol.T
 
 plt.figure()
 plt.grid()
-plt.title('odeint')
+plt.title('Predator-prey equations solved with "odeint" method')
 plt.plot(t,x,'b',label='Prey')
 plt.plot(t,y,'r',label='Predator')
 plt.xlabel('Time')
