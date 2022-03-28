@@ -69,13 +69,23 @@ plt.legend(loc = 'best')
 plt.title('Prey vs Predator phase portrait')
 plt.show()
 
-def euler_solver(f,x0,t,alpha,beta,delta):
+def euler_solver(f,Y0,t,alpha,beta,delta):
     dt = t[1] - t[0]
     lt = len(t)
-    x = np.zeros([lt, len(x0)])
-    x[0] = x0
+    x = np.zeros([lt, len(Y0)])
+    x[0] = Y0
     for k in range(lt-1):
         x[k+1] = x[k] + f(x[k], t[k], alpha, beta, delta) * dt
     return x
 
-
+Ye = euler_solver(pred_prey_eqns, Y0, t, alpha, beta, delta)
+plt.figure()
+plt.title('Predator-prey equations solved with Euler method')
+plt.plot(t, Ye[:,0], 'b', label = 'Prey')
+plt.plot(t, Ye[:,1], 'r', label = 'Predator')
+plt.grid()
+plt.xlabel('Time')
+plt.ylabel('Population')
+plt.legend(loc = 'best')
+plt.ylim([0.,1.2])
+plt.show()
