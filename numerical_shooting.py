@@ -9,7 +9,7 @@ upper_bound = 10
 N = int(upper_bound - lower_bound/h)
 b = 1
 sigma = -1
-theta = 1
+#theta = 1
 w1 = np.zeros(N)
 w2 = np.zeros(N)
 u1 = np.zeros(N)
@@ -29,8 +29,8 @@ for i in range (N):
     w2[i] = w2[i-1] + h * (u1[i-1] + b*u2[i-1] + sigma*u2[i-1]*((u1[i-1])**2 + (u2[i-1])**2)) 
     u1[i] = u1[i-1] + h
     u2[i] = u2[i-1] + h
-    analytic_sol1[i] = np.sqrt(b) * math.cos(i + theta)
-    analytic_sol2[i] = np.sqrt(b) * math.sin(i + theta)
+    analytic_sol1[i] = np.sqrt(b) * math.cos(u1[i]) #+ theta)
+    analytic_sol2[i] = np.sqrt(b) * math.sin(u2[i]) #+ theta)
 
 fig1 = plt.figure(figsize=(8,4))
 
