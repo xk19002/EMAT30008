@@ -31,3 +31,43 @@ for i in range (1,N):
     u2[i] = u2[i-1] + h
     analytic_sol1[i] = np.sqrt(b) * math.cos(i + theta)
     analytic_sol2[i] = np.sqrt(b) * math.sin(i + theta)
+
+fig1 = plt.figure(figsize=(8,4))
+
+ax1 = fig1.add_subplot(1,3,1)
+plt.plot(u1,w1,color='red')
+plt.title('Numerical solution for du1/dt')
+
+ax1 = fig1.add_subplot(1,3,2)
+plt.plot(u1,analytic_sol1,color='blue')
+plt.title('Analytic Solution for du1/dt')
+
+ax1 = fig1.add_subplot(1,3,3)
+plt.plot(u1,analytic_sol1-w1,color='black')
+plt.title('Error')
+
+fig1.suptitle('du1/dt solution', fontsize=20)
+plt.tight_layout()
+plt.subplots_adjust(top=0.85)
+plt.show()
+
+fig2 = plt.figure(figsize=(8,4))
+
+ax2 = fig2.add_subplot(1,3,1)
+plt.plot(u2,w2,color='red')
+plt.title('Numerical solution for du2/dt')
+
+ax2 = fig2.add_subplot(1,3,2)
+plt.plot(u2,analytic_sol2,color='blue')
+plt.title('Analytic Solution for du2/dt')
+
+ax2 = fig2.add_subplot(1,3,3)
+plt.plot(u2,analytic_sol2-w2,color='black')
+plt.title('Error')
+
+fig2.suptitle('du2/dt solution', fontsize=20)
+plt.tight_layout()
+plt.subplots_adjust(top=0.85)
+plt.show()
+
+
