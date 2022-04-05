@@ -34,6 +34,7 @@ tend = 100
 t = np.linspace(0,tend,N)
 Y0 = [x0,y0]
 X0 = [u10,u20]
+
 pp_sol = integrate.odeint(pred_prey_eqns, Y0, t, args = (alpha, beta, delta))
 hopf_sol = integrate.odeint(hopf_bif, X0, t, args = (b, sigma))
 x,y = pp_sol.T
