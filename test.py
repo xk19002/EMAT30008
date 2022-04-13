@@ -13,7 +13,7 @@ tend = 100
 t = np.linspace(0,tend,N)
 theta = 1
 
-result = integrate.odeint(hopf_bif,X0,t,b,sigma)
+result = integrate.odeint(hopf_bif,X0,t,args = (b,sigma))
 
 if abs(result - np.sqrt(b)*math.cos(t + theta)) < 1e-6:
     print('Test passed')
