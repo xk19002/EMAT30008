@@ -33,8 +33,8 @@ u1 = x3[:,0]
 u2 = x3[:,1]
 plt.plot(u1,u2,label='RungeKutta 4')
 
-exact_sol = np.linspace(0,3,301)
-plt.plot(exact_sol,np.exp(exact_sol), label='Exact solution')
+#exact_sol = np.linspace(0,3,301)
+#plt.plot(exact_sol,np.exp(exact_sol), label='Exact solution')
 
 plt.legend()
 plt.show()
