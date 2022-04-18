@@ -3,24 +3,35 @@ import matplotlib.pyplot as plt
 
 class solve_ODE:
     def __init__(self,f):
-        self.f = f
+        self.f = lambda x,t: np.asarray(f(x,t),float)
 
     def adv_sol(self):
         raise NotImplementedError
 
     def init_conds(self,x0):
-        self.x0 = float(x0)
+        if isinstance(x0, (float,int)):
+            self.eqn = 1
+            x0 = float(x0)
+        else:
+            x0 = np.asarray(x0)
+            self.eqn = x0.size
+        self.x0 = x0
 
     def sol_meth(self, tsteps):
         self.t = np.asarray(tsteps)
         n = len(self.t)
-        self.x = np.zeros(n)
+        if self.eqn == 1:
+            self.x = np.zeros(n)
+        else:
+            self.x = np.zeros((n,self.eqn))
+
         self.x[0] = self.x0
 
         for k in range(n-1):
             self.k = k
             self.x[k+1] = self.adv_sol()
-        return self.x, self.t
+        return self.x,self.t
+
 
 class forweuler(solve_ODE):
     def adv_sol(self):
