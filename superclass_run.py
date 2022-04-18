@@ -7,26 +7,31 @@ def f(x,t):
     beta = 2
     return [beta*u1 - u2 -u1*(u1**2 + u2**2), u1 + beta*u2 - u2*(u1**2 + u2**2)]
 
+def f2(x,t):
+    u1,u2 = x
+    beta = 2
+    return [beta*u1 - u2 + u1*(u1**2 + u2**2) - u1*((u1**2 + u2**2))**2, u1 + beta*u2 + u2*(u1**2 + u2**2) - u2*((u1**2 + u2**2))**2]
+
 u1 = 1
 u2 = 1
 x0 = [u1,u2]
 tsteps = np.linspace(0,1,101)
 
-eu = forweuler(f)
+eu = forweuler(f2)
 eu.init_conds(x0)
 x1, t1 = eu.sol_meth(tsteps)
 u1 = x1[:,0]
 u2 = x1[:,1]
 plt.plot(u1,u2,label='Forward Euler')
 
-mid = midpoint(f)
+mid = midpoint(f2)
 mid.init_conds(x0)
 x2,t2 = mid.sol_meth(tsteps)
 u1 = x2[:,0]
 u2 = x2[:,1]
 plt.plot(u1,u2,label='Midpoint')
 
-rk4 = RK4(f)
+rk4 = RK4(f2)
 rk4.init_conds(x0)
 x3,t3 = rk4.sol_meth(tsteps)
 u1 = x3[:,0]
