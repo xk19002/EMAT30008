@@ -27,3 +27,28 @@ ax.set_title('Radioactive decay')
 ax.legend()
 plt.show()
 
+dts = np.array([0.5/2**i for i in range(5)])
+val_list = np.empty_like(dts)
+
+for j,dt in enumerate(dts):
+    n = n_init
+    n_steps = int((t_final-t_init)/dt)
+
+    for i in range(n_steps):
+        n = n - coeff*n*dt
+    
+    val_list[j] = n
+
+err = np.abs(val_list-n_init*np.exp(-coeff*t_final))
+
+fig,ax = plt.subplots()
+ax.loglog(dts,err,'*', color='red',label='Error')
+ax.loglog(dts,dts,color='red',label='$dt$')
+
+ax.set_xlabel('$dt$')
+ax.set_ylabel('Error')
+ax.set_title('Forward Euler accurcy')
+ax.legend()
+plt.show()
+
+
