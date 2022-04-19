@@ -24,7 +24,7 @@ def u_exact(x,t):
     return y
 
 # Set numerical parameters
-mx = 10     # number of gridpoints in space
+mx = 20     # number of gridpoints in space
 mt = 1000   # number of gridpoints in time
 
 # Set up the numerical environment variables
