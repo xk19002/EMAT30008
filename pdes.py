@@ -188,3 +188,42 @@ ax.set_ylabel('$n$')
 ax.set_title('Radioactive decay')
 ax.legend()
 plt.show()
+
+init_t = 0
+final_t = 40
+t_diff = 0.15
+
+n_ts = int((final_t-init_t)/t_diff)
+
+t = np.arange(n_ts+1)*t_diff
+
+imp_y = np.empty((n_ts+1,2))
+imp_y[0] = xinit,vinit
+
+imp_L = np.linalg.inv(np.array([[1,-t_diff],[gama**2**t_diff,1]]))
+
+for k in range(n_ts):
+    imp_y[k+1] = np.dot(imp_L,imp_y[k])
+
+fig,ax = plt.subplots(1,2,figsize=(12,6))
+
+ax[0].plot(t,imp_y[:,1],label='Backward Euler')
+ax[0].plot(t,yval[:,1],'--',label='Forward Euler')
+
+ax[0].set_xlabel('$t$')
+ax[0].set_ylabel('$v$')
+ax[0].set_title('Speed over time (m/s)')
+
+ax[1].plot(t,imp_y[:,0],label='Backward Euler')
+ax[1].plot(t,yval[:,0],'--',label='Forward Euler')
+
+ax[1].set_xlabel('$t$')
+ax[1].set_ylabel('$x$')
+ax[1].set_title('Position over time (m)')
+
+for axis in ax:
+    axis.set_xlim(0,15)
+    axis.set_ylim(-10,10)
+    axis.legend(loc='upper center')
+
+plt.show()
