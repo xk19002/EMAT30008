@@ -42,7 +42,7 @@ for j,dt in enumerate(dts):
 err = np.abs(val_list-n_init*np.exp(-coeff*t_final))
 
 fig,ax = plt.subplots()
-ax.loglog(dts,err,'*', color='red',label='Error')
+ax.loglog(dts,err,'*', color='black',label='Error')
 ax.loglog(dts,dts,color='red',label='$dt$')
 
 ax.set_xlabel('$dt$')
@@ -82,4 +82,39 @@ ax.set_yticks((-2,-1,1))
 #        label.set_visible(False)
 ax.tick_params(width=2,pad=10)
 ax.set_title('Stability region of forward Euler method',y=1.01)
+plt.show()
+
+g = 9.81
+h_init = 100
+v_init = 0
+
+t0 = 0
+tend = 4
+tstep = 0.1
+
+nstep = int((tend-t0)/tstep)
+y = np.empty((nstep+1,2))
+y[0] = h_init,v_init
+
+w = np.array([0.,-g])
+L = np.array([[0.,1.],[0.,0.]])
+
+for k in range(nstep):
+    y[k+1] = y[k] + np.dot(L,y[k])*tstep + w*tstep
+
+tt = np.arange(nstep+1)*tstep
+
+fig,ax = plt.subplots(1,2,figsize=(9,4))
+
+ax[0].plot(tt,y[:,1],'-b',lw=0.8)
+ax[0].set_xlim(tt[0],tt[-1])
+ax[0].set_xlabel('$t$')
+ax[0].set_ylabel('$v$')
+ax[0].set_title('Speed over time (m/s)')
+
+ax[1].plot(tt,y[:,0],'-b',lw=0.8)
+ax[1].set_xlim(tt[0],tt[-1])
+ax[1].set_xlabel('$t$')
+ax[1].set_ylabel('$h$')
+ax[1].set_title('Height over time (m)')
 plt.show()
