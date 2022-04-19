@@ -156,3 +156,35 @@ for axis in axx:
     axis.set_xlim(0,40)
     
 plt.show()
+
+a = 0.25
+t_i = 0
+t_f = 15
+t_d = 1
+n_i =100
+
+nts = int((t_f - t_i)/t_d)
+n_val = np.empty((nts+1,2))
+n_val[0] = n_i,n_i
+
+adv_coef = (1+a*t_d)**(-1)
+
+for k in range(nts):
+    n_val[k+1,0] = n_val[k,0]-a*n_val[k,0]*t_d
+    n_val[k+1,1] = adv_coef*n_val[k,1]
+
+t = np.arange(nts+1)*t_d
+n_exact = n_i*np.exp(-a*t)
+
+fig,ax = plt.subplots(figsize=(8,6))
+
+ax.plot(t,n_exact,label='Exact solution')
+ax.plot(t,n_val[:,0],'ro',label='Forwrd Euler')
+ax.plot(t,n_val[:,1],'go',label='Backward Euler')
+
+ax.set_xlim(t[0]-0.1,t[-1]+0.1)
+ax.set_xlabel('$t$')
+ax.set_ylabel('$n$')
+ax.set_title('Radioactive decay')
+ax.legend()
+plt.show()
