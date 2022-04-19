@@ -118,3 +118,41 @@ ax[1].set_xlabel('$t$')
 ax[1].set_ylabel('$h$')
 ax[1].set_title('Height over time (m)')
 plt.show()
+
+spr_k = 2
+mass = 1
+xinit = 0.75
+vinit = 0
+tinit = 0
+tfinal = 40
+ts = 0.15
+
+gama = np.sqrt(spr_k/mass)
+ntstep = int((tfinal-tinit)/ts)
+
+yval = np.empty((ntstep+1,2))
+yval[0] = xinit,vinit
+
+mat = np.array([[0,1],[-gama**2,0]])
+
+for j in range(ntstep):
+    yval[j+1] = yval[j] + np.dot(mat,yval[j])*ts
+
+tval = np.arange(ntstep+1)*ts
+
+fig,axx = plt.subplots(1,2,figsize=(9,4))
+
+axx[0].plot(tval,yval[:,1])
+axx[0].set_xlabel('$t$')
+axx[0].set_ylabel('$v$')
+axx[0].set_title('Speed over time (m/s)')
+
+axx[1].plot(tval,yval[:,0])
+axx[1].set_xlabel('$t$')
+axx[1].set_ylabel('$x$')
+axx[1].set_title('position over time (m)')
+
+for axis in axx:
+    axis.set_xlim(0,40)
+    
+plt.show()
