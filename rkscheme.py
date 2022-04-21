@@ -97,3 +97,52 @@ ax.set_ylabel(r'$\lambda_i dt$',rotation=0)
 ax.set_aspect(1)
 ax.set_title('Stability regions for Euler, RK2, RK4 schemes',x=0.7,y=1.01)
 plt.show()
+
+g = 9.81
+h_init = 100
+v_init = 0
+t_init = 0
+t_end = 10
+t_diff = 0.5
+
+n_tsteps = int((t_end - t_init)/t_diff)
+
+exp_y = np.empty((n_tsteps+1,2))
+imp_y = np.empty((n_tsteps+1,2))
+
+exp_y[0] = h_init,v_init
+imp_y[0] = h_init,v_init
+
+w = np.array([0,-g])
+m = np.array([[0,1],[0,0]])
+
+k_mat = np.linalg.inv(np.eye(2)-m*t_diff/4)
+
+for k in range(n_tsteps):
+    yval = exp_y[k] + 0.5*t_diff*(np.dot(m,exp_y[k])+w)
+    exp_y[k+1] = exp_y[k] + t_diff*(np.dot(m,yval)+w)
+
+    k1 = np.dot(k_mat,np.dot(m,imp_y[k])+w)
+    k2 = np.dot(k_mat,np.dot(m,imp_y[k]+k1*t_diff/2)+w)
+    imp_y[k+1] = imp_y[k] + 0.5*t_diff*(k1+k2)
+
+tval = np.arange(n_tsteps+1)*t_diff
+
+fig,ax = plt.subplots(1,2,figsize=(9,4))
+
+ax[0].plot(tval, exp_y[:,0],'--')
+ax[0].plot(tval, imp_y[:,0],'-')
+ax[0].set_xlabel('$t$')
+ax[0].set_ylabel('$v$')
+ax[0].set_title('Speed over time (m/s)')
+
+ax[1].plot(tval,exp_y[:,1],'--')
+ax[1].plot(tval,imp_y[:,1],'-')
+ax[1].set_xlabel('$t$')
+ax[1].set_ylabel('$h$')
+ax[1].set_title('Height over time (m)')
+
+for axis in ax:
+    axis.set_xlim(tval[0], tval[-1])
+
+plt.show()
