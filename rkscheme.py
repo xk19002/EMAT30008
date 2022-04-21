@@ -38,3 +38,62 @@ for axx in ax:
     axx.set_xlim(t[0],t[-1])
 
 plt.show()
+
+resx = 100
+resy = 100
+
+x = np.linspace(-3.5,1.5,resx)
+y = np.linspace(-3.5,3.5,resy)
+
+gridx, gridy = np.meshgrid(x,y)
+z = gridx + 1j*gridy
+
+rem1 = 1 + z
+norm_rem1 = np.real(rem1*rem1.conj())
+rem2 = 1 + z + z**2/2
+norm_rem2 = np.real(rem2*rem2.conj())
+rem4 = 1 + z + z**2/2 + z**3/6 + z**4/24
+norm_rem4 = np.real(rem4*rem4.conj())
+
+fig,ax = plt.subplots(figsize=(8,8))
+
+ax.contour(gridx,gridy,norm_rem1,levels=[1],colors='b')
+ax.contour(gridx,gridy,norm_rem2,levels=[1],colors='g')
+ax.contour(gridx,gridy,norm_rem4,levels=[1],colors='r')
+
+ax.spines['left'].set_position('zero')
+ax.spines['bottom'].set_position('center')
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+
+xlo,xhi = -3.2,1.4
+ylo,yhi = -3.4,3.4
+
+ax.set_xlim(xlo,xhi)
+ax.set_ylim(ylo,yhi)
+
+ax.arrow(xlo,0,xhi-xlo,0,fc='k',ec='k',lw=0.5,head_width=1/20*(yhi-ylo),head_length=1/20*(xhi-xlo),overhang=0.3,length_includes_head=True,clip_on=False)
+ax.arrow(0,ylo,0,yhi-ylo,fc='k',ec='k',lw=0.5,head_width=1/20*(xhi-xlo),head_length=1/20*(yhi-ylo),overhang=0.3,length_includes_head=True,clip_on=False)
+
+ax.yaxis.set_label_coords(0.85,0.95)
+ax.xaxis.set_label_coords(1.05,0.475)
+
+ax.set_xticks((-3.-1,1))
+ax.set_yticks((-2,-1,1,2))
+
+ax.text(-1,1.1,r'Euler',fontsize=14,horizontalalignment='center')
+ax.text(-1,1.85,r'RK2',fontsize=14,horizontalalignment='center')
+ax.text(-2.05,2.05,r'RK4',fontsize=14,horizontalalignment='center')
+
+ax.arrow(0.5,2.63,-0.5,0.2,fc='k',ec='k',lw=0.5,head_width=1/80*(yhi-ylo),head_length=1/50*(xhi-xlo),overhang=0.3,length_includes_head=True,clip_on=False)
+ax.text(0.75,2.55,r'2.83',fontsize=14,horizontalalignment='center')
+
+ax.arrow(-3.05,0.4,0.26,-0.4,fc='k',ec='k',lw=0.5,head_width=1/80*(yhi-ylo),head_length=1/50*(xhi-xlo),overhang=0.3,length_includes_head=True,clip_on=False)
+ax.text(-3.17,0.49,r'-2.79',fontsize=14,horizontalalignment='center')
+
+ax.set_xlabel(r'$\lambda_r dt$')
+ax.set_ylabel(r'$\lambda_i dt$',rotation=0)
+
+ax.set_aspect(1)
+ax.set_title('Stability regions for Euler, RK2, RK4 schemes',x=0.7,y=1.01)
+plt.show()
