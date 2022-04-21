@@ -49,4 +49,19 @@ ax[2].plot(xval_c[1:gridx-1],cent_diff[1:gridx-1],'co')
 
 plt.show()
 
+df = np.empty(gridx)
 
+df[0] = (-3/2*func_c[0] + 2*func_c[1] - 1/2*func_c[2])/xdiff
+df[-1] = (3/2*func_c[-1] - 2*func_c[-2] + 1/2*func_c[-3])/xdiff
+df[1:-1] = (func_c[2:] - func_c[:-2])/(2*xdiff)
+
+fig,ax = plt.subplots(figsize=(10,5))
+
+ax.set_xlim(min(xval[0], xval_c[0]), max(xval[-1], xval_c[-1]))
+
+ax.plot(xval, deriv, label='Exact derivative')
+ax.plot(xval_c, df, 'ro', label='Approximated derivative')
+ax.set_xlabel('$x$')
+ax.set_ylabel("$f'$")
+ax.legend(loc='upper left')
+plt.show()
