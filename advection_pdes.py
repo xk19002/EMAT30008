@@ -37,4 +37,28 @@ ax.set_title('Advection solution using forward Euler scheme and forward finite d
 ax.legend()
 plt.show()
 
+def backward_wave_rhs(x,xdiff,v):
+    gridx = x.shape[0]
+    func = np.empty(gridx)
+    func[1:-1] = -v*(x[1:-1]-x[:-2])/xdiff
+    func[0] = 0
+    func[-1] = 0
+    return func
 
+x = np.empty((ntstep+1,gridx))
+x[0] = x0.copy()
+
+for k in range(ntstep):
+    x[k+1] = euler_scheme(x[k],backward_wave_rhs,tstep,xdiff,v)
+
+fig,ax = plt.subplots(figsize=(10,5))
+
+ax.plot(xc,x[0],label='Initial condition')
+ax.plot(xc,x[int(0.10/tstep)],color='purple',label='t=0.10')
+ax.plot(xc,x[int(0.15/tstep)],color='red',label='t=0.15')
+ax.plot(xc,x[int(tend/tstep)],color='green',label=f't={tend}')
+ax.set_xlabel('$x$')
+ax.set_ylabel('$u$')
+ax.set_title('Advection solution using forward Euler scheme and backward finite differences')
+ax.legend()
+plt.show()
