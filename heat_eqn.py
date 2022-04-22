@@ -50,3 +50,31 @@ ax.set_title('Heat equation with mixed Dirichlet boundary conditions')
 ax.legend()
 plt.show()
 
+gridx = 41
+intl = 1
+xdiff = intl/(gridx - 1)
+x = np.linspace(0,1,gridx)
+bvec = -1*np.ones(gridx)
+temp = np.empty(gridx)
+
+mat = dirichlet_heat_mat(gridx,xdiff)
+mat[0,0:2] = np.array([-2/3,2/3])/xdiff**2
+inv_mat = inv(mat)
+
+bvec[1] = bvec[1] + 4/(3*xdiff)
+bvec[-2] = bvec[-2] - 1/xdiff**2
+
+temp[1:-1] = np.dot(inv_mat,bvec[1:-1])
+temp[0] = 4/3*temp[1] - 1/3*temp[2] - 4/3*xdiff
+temp[-1] = 1
+exact_temp = -0.5*(x**2-4*x+1)
+
+fig,ax =plt.subplots(figsize=(10,7))
+
+ax.plot(x,exact_temp,label='Exact solution')
+ax.plot(x,temp,'ro',label='Approximate solution')
+ax.set_xlabel('$x$')
+ax.set_ylabel('$T$')
+ax.set_title('Heat equation with mixed Neumann boundary conditions')
+ax.legend()
+plt.show()
