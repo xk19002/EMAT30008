@@ -62,3 +62,33 @@ ax.set_ylabel('$u$')
 ax.set_title('Advection solution using forward Euler scheme and backward finite differences')
 ax.legend()
 plt.show()
+
+def periodic_backwward_wave_rhs(x,xdiff,v):
+    gridx = x.shape[0]
+    func = np.empty(gridx)
+    func[1:] = -v*(x[1:]-x[0:-1])/xdiff
+    func[0] = func[-1] 
+    return func
+
+tend = 2
+tstep = 0.002
+ntstep = int(tend/tstep)
+gridx = 401
+xdiff = ld/(gridx-1)
+xc = np.linspace(0,ld,gridx)
+x0 = np.exp(-200*(xc-0.25)**2)
+x = np.empty((ntstep+1,gridx))
+x[0] = x0.copy()
+
+for k in range(ntstep):
+    x[k+1] = euler_scheme(x[k],periodic_backwward_wave_rhs,tstep,xdiff,v)
+
+fig,ax = plt.subplots(figsize=(10,5))
+
+ax.plot(xc,x[0],label='Initial condition')
+ax.plot(xc,x[int(0.68/tstep)],color='red',label='t=0.68')
+ax.set_xlabel('$x$')
+ax.set_ylabel('$t$')
+ax.set_title('Advection solution with periodic boundary conditions')
+ax.legend()
+plt.show()
