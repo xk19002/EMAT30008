@@ -34,3 +34,19 @@ ax.set_ylabel('$T$')
 ax.set_title('Heat equation with homogeneous Dirichlet boundary conditions')
 ax.legend()
 plt.show()
+
+bvec[1] = bvec[1] - 1/xdiff**2
+temp[1:-1] = np.dot(inv_mat,bvec[1:-1])
+temp[0],temp[-1] = [1,0]
+exact_temp = 0.5*(x+2)*(1-x)
+
+fig,ax = plt.subplots(figsize=(10,7))
+
+ax.plot(x,exact_temp,label='Exact solution')
+ax.plot(x,temp,'ro',label='Approximate solution')
+ax.set_xlabel('$x$')
+ax.set_ylabel('$T$')
+ax.set_title('Heat equation with mixed Dirichlet boundary conditions')
+ax.legend()
+plt.show()
+
