@@ -96,23 +96,23 @@ ax.set_title('Advection solution with periodic boundary conditions')
 ax.legend()
 plt.show()
 
-fig, ax = plt.subplots(figsize=(10,5))
-graphline, = ax.plot(xc,x0)
-timestamp = ax.text(0.05,0.9,'t=0')
+#fig, ax = plt.subplots(figsize=(10,5))
+#graphline, = ax.plot(xc,x0)
+#timestamp = ax.text(0.05,0.9,'t=0')
 
-ax.set_xlabel('$x$')
-ax.set_ylabel('$u$')
-ax.set_title('Advection solution with periodic boundary conditions')
-plt.show()
+#ax.set_xlabel('$x$')
+#ax.set_ylabel('$u$')
+#ax.set_title('Advection solution with periodic boundary conditions')
+#plt.show()
 
-def animation_plot(t):
-    q = int(t/tstep)
-    graphline.set_ydata(x[q])
-    timestamp.set_text(f't={t:.2f}')
-    return graphline,timestamp
+#def animation_plot(t):
+#    q = int(t/tstep)
+#    graphline.set_ydata(x[q])
+#    timestamp.set_text(f't={t:.2f}')
+#    return graphline,timestamp
 
-anim_step = 10
-timepoints = np.arange(0,ntstep+anim_step,anim_step)*tstep
-anim_plot = animation.FuncAnimation(fig,animation_plot,interval=100,frames=timepoints,repeat=False)
-HTML(anim_plot.to_jshtml())
-plt.show()
+#anim_step = 10
+#timepoints = np.arange(0,ntstep+anim_step,anim_step)*tstep
+#anim_plot = animation.FuncAnimation(fig,animation_plot,interval=100,frames=timepoints,repeat=False)
+#HTML(anim_plot.to_jshtml())
+#plt.show()
