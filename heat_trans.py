@@ -53,3 +53,46 @@ def l2_norm_diff(func1,func2):
 err = l2_norm_diff(temp[-1],exactsol(xc,tend,a))
 print(f'L2-error: {err}')
 
+conv_prec = 1e-6
+a = 0.1
+ld = 1
+tinit = 0
+tend = 5
+fc = 0.49
+max_refine = 8
+refine = 1
+gridx = 3
+sol_ref = np.zeros(gridx)
+soldiff = 1
+
+while(soldiff > conv_prec):
+    if refine > max_refine:
+        print('\n Solution did not converge within the desired maximum grid refinements')
+        print(f'Grid points tested: gridx = {gridx}')
+        break
+
+    gridx = 2*gridx-1
+    xdiff = ld/(gridx-1)
+    xc = np.linspace(0,ld,gridx)
+    tempinit = np.sin(2*np.pi*xc)
+    hs = 2*np.sin(np.pi*xc)
+    tstep = fc*xdiff**2/a
+    ntstep = int((tend-tinit)/tstep)
+
+    for k in range(ntstep):
+        temp1 = euler_scheme(tempinit,cent_diff_rhs,tstep,xdiff,a,hs)
+        tempinit = temp1
+
+    soldiff = l2_norm_diff(temp1[::2],sol_ref)
+    print(f'L2-norm difference after {refine} grid refinements'f' (number of grid points = {gridx}): {soldiff}')
+
+    refine += 1
+    sol_ref = temp1.copy()
+
+else:
+    print(f'\nConvergence of solution within required precision'f' for {gridx} grid points')
+
+
+
+
+
