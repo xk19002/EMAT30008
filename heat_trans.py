@@ -92,6 +92,9 @@ while(soldiff > conv_prec):
 else:
     print(f'\nConvergence of solution within required precision'f' for {gridx} grid points')
 
+exactdiff = l2_norm_diff(temp1,exactsol(xc,5,a))
+print(f'L2-norm error between converged solution and exact solution: {exactdiff}')
+
 
 
 
