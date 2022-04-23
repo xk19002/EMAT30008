@@ -45,3 +45,11 @@ ax.set_ylabel('$Temp.$')
 ax.set_title('Heat transport using forward Euler and forward finite differences')
 ax.legend()
 plt.show()
+
+def l2_norm_diff(func1,func2):
+    ldiff = np.sqrt(np.sum((func1-func2)**2))/func1.shape[0]
+    return ldiff
+
+err = l2_norm_diff(temp[-1],exactsol(xc,tend,a))
+print(f'L2-error: {err}')
+
