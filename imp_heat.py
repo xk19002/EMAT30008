@@ -28,7 +28,7 @@ for k in range(ntstep):
     temp[k+1] = euler_scheme(temp[k], cent_diff_rhs,tstep,xdiff,a,hs)
 
 l2_err = l2_norm_diff(temp[-1],exsol)
-print(f'L2-error: {l2_err}')
+print(f'L2-error (forward Euler component form): {l2_err}')
 print(f'Steps required for time integration: {ntstep}')
 
 dirmat = dirichlet_bound_mat(gridx,xdiff)
@@ -42,5 +42,23 @@ temp[-1,0] = 0
 temp[-1,-1] = 0
 
 l2_err = l2_norm_diff(temp[-1],exsol)
-print(f'L2-error: {l2_err}')
+print(f'L2-error (forward Euler matrix form): {l2_err}')
+print(f'Steps required for time integration: {ntstep}')
+
+fc = 10
+tstep = fc*xdiff**2/a
+ntstep = int((tend-tinit)/tstep)
+mat = np.eye(gridx-2)-a*tstep*dirmat
+invmat = np.linalg.inv(mat)
+temp = np.empty((ntstep+1,gridx))
+temp[0] = temp0.copy()
+
+for k in range(ntstep):
+    temp[k+1,1:-1] = np.dot(invmat,temp[k,1:-1]+hs[1:-1]*tstep)
+
+temp[-1,0] = 0
+temp[-1,-1] = 0
+
+l2_err = l2_norm_diff(temp[-1],exsol)
+print(f'L2-error (backward Euler): {l2_err}')
 print(f'Steps required for time integration: {ntstep}')
