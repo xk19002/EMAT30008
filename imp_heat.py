@@ -62,3 +62,25 @@ temp[-1,-1] = 0
 l2_err = l2_norm_diff(temp[-1],exsol)
 print(f'L2-error (backward Euler): {l2_err}')
 print(f'Steps required for time integration: {ntstep}')
+
+fc = 55
+tstep = fc*xdiff**2/a
+ntstep = int((tend-tinit)/tstep)
+
+amat = np.eye(gridx-2)-0.5*a*tstep*dirmat
+amat_inv = np.linalg.inv(amat)
+bmat = np.eye(gridx-2)+0.5*a*tstep*dirmat
+cmat = np.dot(amat_inv,bmat)
+temp = np.empty((ntstep+1,gridx))
+temp[0] = temp0.copy()
+cn = np.dot(amat_inv,hs[1:-1]*tstep)
+
+for k in range(ntstep):
+    temp[k+1,1:-1] = np.dot(cmat,temp[k,1:-1])+cn
+
+temp[-1,0] = 0
+temp[-1,-1] = 0
+
+l2_err = l2_norm_diff(temp[-1],exsol)
+print(f'L2-error (Crank-Nicolson): {l2_err}')
+print(f'Steps required for time integration: {ntstep}')
