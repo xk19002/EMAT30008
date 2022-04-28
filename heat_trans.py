@@ -42,7 +42,7 @@ ax.plot(xc,temp[-1],color='green',label=f'$t={tend}$')
 ax.plot(xc,exactsol(xc,5,a),'b*',label='Exact solution at time $t=5$')
 ax.set_xlabel('$x$')
 ax.set_ylabel('$Temp.$')
-ax.set_title('Heat transport using forward Euler and forward finite differences')
+ax.set_title('Heat transport using forward Euler and centered finite differences')
 ax.legend()
 plt.show()
 
